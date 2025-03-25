@@ -7,18 +7,12 @@
 #define EPS 1e-5
 #define MAX_ITER 1000000
 
-struct Layer {
-    double depth; // depth of the layer
-    double speed; // sound speed on current depth
-};
-
 struct RayCoordinates {
     double dist; // travel distance
     double depth; // travel depth
     double angle; // angle of ray
     double time; // travel time
 };
-
 
 /// @brief class for interpolating sound speed
 class SoundSpeedInterpolator {
@@ -137,7 +131,7 @@ int main() {
         5, 10 , -10, -5
     };
 
-    auto interpolator = SoundSpeedInterpolator(depths, speeds);
+    auto interpolator = SoundSpeedInterpolator(depths, speeds); // get VRSZ from table
     double source_depth = 10.;
 
     for (const auto& ray_angle : ray_angles) {
