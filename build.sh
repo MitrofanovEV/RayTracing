@@ -1,0 +1,1 @@
+g++ -o run.exe src/ray_tracing.cpp
