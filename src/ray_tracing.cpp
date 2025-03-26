@@ -95,15 +95,15 @@ std::vector<RayCoordinates> trace_ray(const SoundSpeedInterpolator &speed_interp
         current_position.time += fabs(dz / cos(current_position.angle) / in_speed);
 
         double out_speed = speed_interpolator.get_speed(current_position.depth);
-        double sina = in_speed / out_speed * sin(current_position.angle);
+        double sina = out_speed / in_speed * sin(current_position.angle);
 
         if (
-            fabs(sina) > 1 || 
-            fabs(current_position.depth) < EPS || 
+            fabs(sina) > 1 ||
+            fabs(current_position.depth) < EPS ||
             fabs(current_position.depth - speed_interpolator.max_depth()) < EPS
-        ) 
+        )
             current_position.angle *= -1;
-        else 
+        else
             current_position.angle = asin(sina);
 
         if (trajectory.size() > MAX_ITER) {
@@ -125,7 +125,7 @@ int main() {
     std::vector<double> speeds = {
         1482.0, 1481.4, 1478.9, 1475.3, 1474.0, 1472.9, 1471.6, 1471.4,
         1469.2, 1469.0, 1469.5, 1469.8, 1469.6, 1471.0, 1474.6, 1474.6
-    };  
+    };
 
     std::vector<double> ray_angles = {
         5, 10 , -10, -5
@@ -139,9 +139,9 @@ int main() {
         RayCoordinates initial_position{0, source_depth, to_radians(horizontal_to_normal(ray_angle)), 0};
         std::vector<RayCoordinates> trajectory;
         trajectory = trace_ray(interpolator, initial_position, 0.001, 2000.);
-        
+
         std::string filename = "rays/ray_" + std::to_string(ray_angle) + ".txt";
-        
+
         std::ofstream outFile(filename);
         for (const auto& ray : trajectory) {
             outFile << ray.dist << " " << ray.depth<< " " << ray.time << "\n";
